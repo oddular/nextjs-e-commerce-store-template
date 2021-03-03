@@ -5,9 +5,16 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "up": "yarn upgrade @oddular/commerce-core --latest"
   },
   "dependencies": {
+    "@graphql-tools/graphql-file-loader": "^6.2.7",
+    "@graphql-tools/json-file-loader": "^6.2.6",
+    "@oddular/commerce-core": "1.31.0",
+    "graphql": "^15.5.0",
+    "graphql-request": "^3.4.0",
+    "graphql-tag": "^2.11.0",
     "next": "10.0.7",
     "react": "17.0.1",
     "react-dom": "17.0.1"
