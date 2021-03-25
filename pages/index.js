@@ -12,7 +12,7 @@ export default function Home() {
 
   useEffect(() => {
     const OddularClient = new OddularStorefrontClient(
-      'ODDULAR_PUBLIC_TOKEN_Nkpn4ZAmPJZD1Gs7SyiAP8CjQ5GRF6',
+      'ODDULAR_PUBLIC_TOKEN_YfUsWhEK3PZJCANFh0eOmMy9uOKYkW',
       'http://localhost:8000/storefront/',
       true,
       {},
@@ -22,17 +22,30 @@ export default function Home() {
       fragment ProductFragment on Product {
         id
         name
+        description
       }
     `;
 
-    OddularClient.getProductList({ first: 5 }, productFragment)
+    OddularClient.getProductList({ first: 100 }, productFragment)
       .then((data) => {
+        console.log(data);
         setD(data);
       })
       .finally(() => {
         setLoading(false);
       });
   }, []);
+
+  const handleAddToCart = (variant, quantity) => {
+    const OddularClient = new OddularStorefrontClient(
+      'ODDULAR_PUBLIC_TOKEN_YfUsWhEK3PZJCANFh0eOmMy9uOKYkW',
+      'http://localhost:8000/storefront/',
+      true,
+      {},
+    );
+
+    OddularClient.addProductToCart();
+  };
 
   return (
     <div className={styles.container}>
@@ -45,7 +58,11 @@ export default function Home() {
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Weird Store!</a>
         </h1>
-
+      </main>
+      <section>
+        <h2>Cart</h2>
+      </section>
+      <section>
         <p className={styles.description}>
           Get started by editing{' '}
           <code className={styles.code}>pages/index.js</code>
@@ -58,19 +75,26 @@ export default function Home() {
               {d.products.edges.map((node) => {
                 let product = node.node;
                 return (
-                  <a
-                    href="https://nextjs.org/docs"
+                  <div
+                    onClick={() => addProductToCart(product.id)}
                     className={styles.card}
                     key={product.id}
                   >
                     <h3>{product.name} &rarr;</h3>
-                  </a>
+                    <h5 style={{ fontSize: '0.6rem' }}>
+                      {!!product.category && product.category.name}
+                    </h5>
+                    <p>
+                      {!!product.description &&
+                        product.description.substring(0, 50)}
+                    </p>
+                  </div>
                 );
               })}
             </div>
           </>
         )}
-      </main>
+      </section>
 
       <footer className={styles.footer}>
         <a
