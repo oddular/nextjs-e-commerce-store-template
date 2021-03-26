@@ -124,6 +124,16 @@
   height: 1em;
 }
 
+.error {
+  color: #de3c4b;
+  text-align: center;
+  padding: 1rem;
+  border: 2px solid #de3c4b;
+  font-weight: 700;
+  border-radius: 1rem;
+  background-color: rgba(250, 250, 250, 0.5);
+}
+
 @media (max-width: 600px) {
   .grid {
     width: 100%;

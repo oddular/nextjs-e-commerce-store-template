@@ -242,10 +242,10 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
-"@oddular/commerce-core@1.32.0":
-  version "1.32.0"
-  resolved "https://npm.pkg.github.com/download/@oddular/commerce-core/1.32.0/f4b0ed0b6c2f98e1888a76c3d8f695c5af7f24831a40c6bcef87ed5fbf3d515a#fb99a1cc7fba3005640f5dfbcc7214ec5b25d6cd"
-  integrity sha512-Emx08oFdnsK8JfmRqLofom8lkZY03L9V4lqWMfqe9MXjVFvjLESr4CO2MOeDt8+vtHmdS1ziR7oE5Q8RBpckfw==
+"@oddular/commerce-core@1.33.0":
+  version "1.33.0"
+  resolved "https://npm.pkg.github.com/download/@oddular/commerce-core/1.33.0/af1517c191655650fbf6fab4abc757a73ca9c8610de42929e89764fc36965b86#93f1b89372f72be00a3d5c3377688c88888046fc"
+  integrity sha512-Q0UhO7yDAIISu+Vorm8pVvpupy+8GkNWWBQyqaFGz+SKeudcm53OxMgAgZ3JhEUkWSCIfVanH8JGv3SJw4FjIw==
   dependencies:
     "@graphql-tools/load" "^6.2.7"
     "@graphql-tools/url-loader" "^6.2.7"

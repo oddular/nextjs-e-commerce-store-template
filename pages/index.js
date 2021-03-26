@@ -6,14 +6,18 @@ import Spinner from '../components/spinner';
 
 import { OddularStorefrontClient, gql } from '@oddular/commerce-core';
 
+const TOKEN = 'ODDULAR_PUBLIC_TOKEN_x6eCRpSwmsKXtV8XYmCDl2V2nREFMq';
+const GRAPHQL_URL = 'http://localhost:8000/storefront/';
+
 export default function Home() {
   const [d, setD] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState();
 
   useEffect(() => {
     const OddularClient = new OddularStorefrontClient(
-      'ODDULAR_PUBLIC_TOKEN_YfUsWhEK3PZJCANFh0eOmMy9uOKYkW',
-      'http://localhost:8000/storefront/',
+      TOKEN,
+      GRAPHQL_URL,
       true,
       {},
     );
@@ -27,9 +31,14 @@ export default function Home() {
     `;
 
     OddularClient.getProductList({ first: 100 }, productFragment)
-      .then((data) => {
-        console.log(data);
-        setD(data);
+      .then(({ status, data, error }) => {
+        if (status === 'error') {
+          console.log('response');
+          console.log(error.response.error);
+          setError(error.response.error);
+        } else {
+          setD(data);
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -38,8 +47,8 @@ export default function Home() {
 
   const handleAddToCart = (variant, quantity) => {
     const OddularClient = new OddularStorefrontClient(
-      'ODDULAR_PUBLIC_TOKEN_YfUsWhEK3PZJCANFh0eOmMy9uOKYkW',
-      'http://localhost:8000/storefront/',
+      TOKEN,
+      GRAPHQL_URL,
       true,
       {},
     );
@@ -71,27 +80,33 @@ export default function Home() {
           <Spinner />
         ) : (
           <>
-            <div className={styles.grid}>
-              {d.products.edges.map((node) => {
-                let product = node.node;
-                return (
-                  <div
-                    onClick={() => addProductToCart(product.id)}
-                    className={styles.card}
-                    key={product.id}
-                  >
-                    <h3>{product.name} &rarr;</h3>
-                    <h5 style={{ fontSize: '0.6rem' }}>
-                      {!!product.category && product.category.name}
-                    </h5>
-                    <p>
-                      {!!product.description &&
-                        product.description.substring(0, 50)}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
+            {!!error ? (
+              <div className={styles.error}>{error}</div>
+            ) : (
+              <>
+                <div className={styles.grid}>
+                  {d.products.edges.map((node) => {
+                    let product = node.node;
+                    return (
+                      <div
+                        onClick={() => addProductToCart(product.id)}
+                        className={styles.card}
+                        key={product.id}
+                      >
+                        <h3>{product.name} &rarr;</h3>
+                        <h5 style={{ fontSize: '0.6rem' }}>
+                          {!!product.category && product.category.name}
+                        </h5>
+                        <p>
+                          {!!product.description &&
+                            product.description.substring(0, 50)}
+                        </p>
+                      </div>
+                    );
+                  })}
+                </div>
+              </>
+            )}
           </>
         )}
       </section>
