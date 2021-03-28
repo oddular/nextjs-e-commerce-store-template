@@ -6,7 +6,7 @@ import Spinner from '../components/spinner';
 
 import { OddularStorefrontClient, gql } from '@oddular/commerce-core';
 
-const TOKEN = 'ODDULAR_PUBLIC_TOKEN_x6eCRpSwmsKXtV8XYmCDl2V2nREFMq';
+const TOKEN = '__DEMO__ODDULAR_PUBLIC_TOKEN_00000';
 const GRAPHQL_URL = 'http://localhost:8000/storefront/';
 
 export default function Home() {
@@ -27,6 +27,39 @@ export default function Home() {
         id
         name
         description
+        variants {
+          id
+          sku
+          name
+          images {
+            id
+            url
+            alt
+          }
+          pricing {
+            onSale
+            priceUndiscounted {
+              gross {
+                amount
+                currency
+              }
+              net {
+                amount
+                currency
+              }
+            }
+            price {
+              gross {
+                amount
+                currency
+              }
+              net {
+                amount
+                currency
+              }
+            }
+          }
+        }
       }
     `;
 
@@ -97,6 +130,9 @@ export default function Home() {
                         <h5 style={{ fontSize: '0.6rem' }}>
                           {!!product.category && product.category.name}
                         </h5>
+                        <pre style={{ fontSize: '10px' }}>
+                          {JSON.stringify(product.variants, null, 2)}
+                        </pre>
                         <p>
                           {!!product.description &&
                             product.description.substring(0, 50)}
