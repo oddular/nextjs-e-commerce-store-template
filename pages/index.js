@@ -17,9 +17,11 @@ export default function Home() {
   useEffect(() => {
     const OddularClient = new OddularStorefrontClient(
       TOKEN,
+      {},
+      '',
       GRAPHQL_URL,
       true,
-      {},
+      true,
     );
 
     const productFragment = gql`
@@ -78,15 +80,22 @@ export default function Home() {
       });
   }, []);
 
-  const handleAddToCart = (variant, quantity) => {
+  const handleAddToCart = (variantId) => {
     const OddularClient = new OddularStorefrontClient(
       TOKEN,
+      {},
+      '',
       GRAPHQL_URL,
       true,
-      {},
+      true,
     );
 
-    OddularClient.addProductToCart();
+    OddularClient.addProductToCart({
+      quantity: 1,
+      variantId,
+      note: 'a note',
+      choice: 'a choice',
+    });
   };
 
   return (
@@ -121,18 +130,27 @@ export default function Home() {
                   {d.products.edges.map((node) => {
                     let product = node.node;
                     return (
-                      <div
-                        onClick={() => addProductToCart(product.id)}
-                        className={styles.card}
-                        key={product.id}
-                      >
+                      <div className={styles.card} key={product.id}>
                         <h3>{product.name} &rarr;</h3>
                         <h5 style={{ fontSize: '0.6rem' }}>
                           {!!product.category && product.category.name}
                         </h5>
-                        <pre style={{ fontSize: '10px' }}>
-                          {JSON.stringify(product.variants, null, 2)}
-                        </pre>
+                        {product.variants.map((variant) => {
+                          return (
+                            <pre
+                              key={variant.id}
+                              onClick={() => handleAddToCart(variant.id)}
+                              style={{
+                                fontSize: '10px',
+                                background: 'rgba(120,120,120, 0.25)',
+                                margin: '10px 0',
+                              }}
+                            >
+                              {JSON.stringify(variant, null, 2)}
+                            </pre>
+                          );
+                        })}
+
                         <p>
                           {!!product.description &&
                             product.description.substring(0, 50)}
