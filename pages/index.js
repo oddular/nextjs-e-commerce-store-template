@@ -107,7 +107,7 @@ export default function Home() {
 
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Weird Store!</a>
+          Welcome to <a href="https://oddular.com/">The Weird Store!</a>
         </h1>
       </main>
       <section>
@@ -130,7 +130,11 @@ export default function Home() {
                   {d.products.edges.map((node) => {
                     let product = node.node;
                     return (
-                      <div className={styles.card} key={product.id}>
+                      <div
+                        className={styles.card}
+                        key={product.id}
+                        style={{ height: '100%', display: 'flex', flexGrow: 1 }}
+                      >
                         <h3>{product.name} &rarr;</h3>
                         <h5 style={{ fontSize: '0.6rem' }}>
                           {!!product.category && product.category.name}
@@ -146,7 +150,7 @@ export default function Home() {
                                 margin: '10px 0',
                               }}
                             >
-                              {JSON.stringify(variant, null, 2)}
+                              {/* {JSON.stringify(variant, null, 2)} */}
                             </pre>
                           );
                         })}
