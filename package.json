@@ -9,9 +9,13 @@
     "up": "yarn upgrade @oddular/commerce-core --latest"
   },
   "dependencies": {
+    "@chakra-ui/react": "^1.5.0",
+    "@emotion/react": "^11",
+    "@emotion/styled": "^11",
     "@graphql-tools/graphql-file-loader": "^6.2.7",
     "@graphql-tools/json-file-loader": "^6.2.6",
-    "@oddular/commerce-core": "1.39.0",
+    "@oddular/commerce-core": "1.43.0",
+    "framer-motion": "^4",
     "graphql": "^15.5.0",
     "graphql-request": "^3.4.0",
     "graphql-tag": "^2.11.0",
