@@ -1,20 +1,13 @@
-import { useEffect, useState } from 'react';
-import Head from 'next/head';
-import styles from '../styles/Home.module.css';
-
-import Spinner from '../components/spinner';
-
-import { GraphQLClient } from 'graphql-request';
-
-import { Box } from '@chakra-ui/react';
+import React from 'react';
+import { Box, Text, Heading, Button, Stack } from '@chakra-ui/react';
 
 import { OddularStorefrontClient, gql } from '@oddular/commerce-core';
 
-import DisplayBlocks from '../components/DisplayBlocks';
-import ProductCard from '../components/ProductCard';
+import { GraphQLClient } from 'graphql-request';
 
-const TOKEN = '__DEMO__ODDULAR_PUBLIC_TOKEN_00000';
-const GRAPHQL_URL = 'http://localhost:8000/storefront/';
+interface ProductCardProps {
+  product: any;
+}
 
 export const cartErrorFragment = gql`
   fragment CartError on CartError {
@@ -38,14 +31,10 @@ export const paymentGatewayFragment = gql`
 
 export const cartPriceFragment = gql`
   fragment Price on TaxedMoney {
-    gross {
-      amount
-      currency
-    }
-    net {
-      amount
-      currency
-    }
+    currency
+    gross
+    net
+    tax
   }
 `;
 
@@ -194,82 +183,13 @@ export const createCartMutation = gql`
     }
   }
 `;
+const TOKEN = '__DEMO__ODDULAR_PUBLIC_TOKEN_00000';
+const GRAPHQL_URL = 'http://localhost:8000/storefront/';
 
-export default function Home() {
-  const [d, setD] = useState(null);
-  const [cart, setCart] = useState(1);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState();
+const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
+  const [selectedVariant, setSelectedVariant] = React.useState('');
 
-  useEffect(() => {
-    const OddularClient = new OddularStorefrontClient(
-      TOKEN,
-      {},
-      '',
-      GRAPHQL_URL,
-      false,
-      false,
-    );
-
-    const productFragment = gql`
-      fragment ProductFragment on Product {
-        id
-        name
-        description
-        descriptionJson
-        hasVariants
-        thumbnail(size: 255) {
-          url
-          alt
-        }
-        listing {
-          hasVariants
-          price {
-            amount
-            currency
-          }
-        }
-        variants {
-          id
-          sku
-          name
-          images {
-            id
-            url
-            alt
-          }
-          listing {
-            price {
-              amount
-              currency
-            }
-          }
-          pricing {
-            onSale
-            priceUndiscounted {
-              currency
-              gross
-              net
-            }
-          }
-        }
-      }
-    `;
-
-    OddularClient.getProductList({ first: 100 }, productFragment)
-      .then(({ status, data, error }) => {
-        if (status === 'error') {
-          setError(error.response.error);
-        } else {
-          setD(data);
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
-
-  const handleAddToCart = (productId, variantId) => {
+  const handleAddToCart = (e) => {
     const client = new GraphQLClient(GRAPHQL_URL, {
       headers: { 'x-oddular-storefront-token': TOKEN },
       credentials: 'include',
@@ -280,6 +200,8 @@ export default function Home() {
       quantity: 1,
       note: 'a note',
       choice: 'a choice',
+      productId: product.id,
+      variantId: selectedVariant,
     };
 
     const variables = {
@@ -322,59 +244,52 @@ export default function Home() {
   };
 
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>The Weird Store</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://oddular.com/">The Weird Store!</a>
-        </h1>
-      </main>
-      <section>
-        {cart == 0 ? (
-          <h2>Cart</h2>
-        ) : (
-          <h2>
-            Cart: <span style={{ color: '#0070f3' }}>{cart}</span>
-          </h2>
-        )}
-      </section>
-      <section>
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-        {!!loading ? (
-          <Spinner />
-        ) : (
-          <>
-            {!!error ? (
-              <div className={styles.error}>{error}</div>
-            ) : (
-              <>
-                <div className={styles.grid}>
-                  {d.products.edges.map((node) => {
-                    let product = node.node;
-                    return <ProductCard product={product} />;
-                  })}
-                </div>
-              </>
-            )}
-          </>
-        )}
-      </section>
-
-      <footer className={styles.footer}>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
+    <Box
+      borderWidth="1px"
+      borderColor="gray.100"
+      boxShadow="sm"
+      p={2}
+      borderRadius="lg"
+      width="full"
+      display="flex"
+      flexDirection="column"
+    >
+      <Stack>
+        <Heading>{product.name}</Heading>
+        <Box
+          display={product.hasVariants ? 'flex' : 'none'}
+          flexDirection="column"
         >
-          Powered by Oddular
-        </a>
-      </footer>
-    </div>
+          <Text fontSize="xs" fontWeight={400}>
+            Choose One
+          </Text>
+          <Stack direction="row" spacing={2}>
+            {product.variants.map((variant) => {
+              return (
+                <Box
+                  key={variant.id}
+                  onClick={() => setSelectedVariant(variant.id)}
+                  borderWidth="2px"
+                  borderRadius="xl"
+                  bg="gray.50"
+                  px={2}
+                  py={1}
+                  borderColor={
+                    selectedVariant === variant.id ? 'blue.500' : 'transparent'
+                  }
+                >
+                  {variant.name}
+                </Box>
+              );
+            })}
+          </Stack>
+        </Box>
+        <Button type="button" size="xs" onClick={handleAddToCart}>
+          Add to cart
+        </Button>
+      </Stack>
+    </Box>
   );
-}
+};
+
+export default ProductCard;
