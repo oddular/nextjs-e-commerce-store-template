@@ -191,7 +191,10 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
   const handleAddToCart = (e) => {
     const client = new GraphQLClient(GRAPHQL_URL, {
-      headers: { 'x-oddular-storefront-token': TOKEN },
+      headers: {
+        'x-oddular-storefront-token': TOKEN,
+        'x-oddular-cart-token': '',
+      },
       credentials: 'include',
       mode: 'cors',
     });

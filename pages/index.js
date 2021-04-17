@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 
@@ -198,6 +198,8 @@ export const createCartMutation = gql`
 export default function Home() {
   const [d, setD] = useState(null);
   const [cart, setCart] = useState(1);
+
+  const [cartToken, setCartToken] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState();
 
@@ -271,7 +273,10 @@ export default function Home() {
 
   const handleAddToCart = (productId, variantId) => {
     const client = new GraphQLClient(GRAPHQL_URL, {
-      headers: { 'x-oddular-storefront-token': TOKEN },
+      headers: {
+        'x-oddular-storefront-token': TOKEN,
+        'x-oddular-cart-token': '1231231',
+      },
       credentials: 'include',
       mode: 'cors',
     });
@@ -357,7 +362,15 @@ export default function Home() {
                 <div className={styles.grid}>
                   {d.products.edges.map((node) => {
                     let product = node.node;
-                    return <ProductCard product={product} />;
+                    return (
+                      <ProductCard
+                        product={product}
+                        cartToken={cartToken}
+                        onCartUpdate={(token) => {
+                          setCartToken(token);
+                        }}
+                      />
+                    );
                   })}
                 </div>
               </>
