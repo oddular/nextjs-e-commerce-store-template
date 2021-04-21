@@ -8,7 +8,7 @@ import { GraphQLClient } from 'graphql-request';
 
 import { Box } from '@chakra-ui/react';
 
-import { OddularStorefrontClient, gql } from '@oddular/commerce-core';
+import { OddularCommerceClient, gql } from '@oddular/commerce-core';
 
 import DisplayBlocks from '../components/DisplayBlocks';
 import ProductCard from '../components/ProductCard';
@@ -204,7 +204,7 @@ export default function Home() {
   const [error, setError] = useState();
 
   useEffect(() => {
-    const OddularClient = new OddularStorefrontClient(
+    const OddularClient = new OddularCommerceClient(
       TOKEN,
       {},
       '',

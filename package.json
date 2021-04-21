@@ -15,7 +15,7 @@
     "@graphql-tools/graphql-file-loader": "^6.2.7",
     "@graphql-tools/json-file-loader": "^6.2.6",
     "@oddular/commerce-core": "1.45.0",
-    "@oddular/commerce-react": "^1.46.0",
+    "@oddular/commerce-react": "^1.48.0",
     "framer-motion": "^4",
     "graphql": "^15.5.0",
     "graphql-request": "^3.4.0",

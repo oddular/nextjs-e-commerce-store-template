@@ -1,7 +1,7 @@
 import React from 'react';
 import { Box, Text, Heading, Button, Stack } from '@chakra-ui/react';
 
-import { OddularStorefrontClient, gql } from '@oddular/commerce-core';
+import { OddularCommerceClient, gql } from '@oddular/commerce-core';
 
 import { GraphQLClient } from 'graphql-request';
 
