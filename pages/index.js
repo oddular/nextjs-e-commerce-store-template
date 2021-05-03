@@ -1,20 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import Head from 'next/head';
-import styles from '../styles/Home.module.css';
+import React, { useEffect, useState } from "react";
+import Head from "next/head";
+import styles from "../styles/Home.module.css";
 
-import Spinner from '../components/spinner';
+import Spinner from "../components/spinner";
 
-import { GraphQLClient } from 'graphql-request';
+import { GraphQLClient } from "graphql-request";
 
-import { Box } from '@chakra-ui/react';
+import { Box, SimpleGrid } from "@chakra-ui/react";
 
-import { OddularCommerceClient, gql } from '@oddular/commerce-core';
+import { OddularCommerceClient, gql } from "@oddular/commerce-core";
 
-import DisplayBlocks from '../components/DisplayBlocks';
-import ProductCard from '../components/ProductCard';
+import DisplayBlocks from "../components/DisplayBlocks";
+import ProductCard from "../components/ProductCard";
 
-const TOKEN = '__DEMO__ODDULAR_PUBLIC_TOKEN_00000';
-const GRAPHQL_URL = 'https://api.odd.app/';
+
+const TOKEN = "__DEMO__ODDULAR_PUBLIC_TOKEN_00000";
+const GRAPHQL_URL = "http://localhost:8000/storefront/";
+
 
 export const cartErrorFragment = gql`
   fragment CartError on CartError {
@@ -207,10 +209,10 @@ export default function Home() {
     const OddularClient = new OddularCommerceClient(
       TOKEN,
       {},
-      '',
+      "",
       GRAPHQL_URL,
       false,
-      false,
+      false
     );
 
     const productFragment = gql`
@@ -260,7 +262,7 @@ export default function Home() {
 
     OddularClient.getProductList({ first: 100 }, productFragment)
       .then(({ status, data, error }) => {
-        if (status === 'error') {
+        if (status === "error") {
           setError(error.response.error);
         } else {
           setD(data);
@@ -274,25 +276,25 @@ export default function Home() {
   const handleAddToCart = (productId, variantId) => {
     const client = new GraphQLClient(GRAPHQL_URL, {
       headers: {
-        'x-oddular-storefront-token': TOKEN,
-        'x-oddular-cart-token': '1231231',
+        "x-oddular-storefront-token": TOKEN,
+        "x-oddular-cart-token": "1231231",
       },
-      credentials: 'include',
-      mode: 'cors',
+      credentials: "include",
+      mode: "cors",
     });
 
     const lineItem = {
       quantity: 1,
-      note: 'a note',
-      choice: 'a choice',
+      note: "a note",
+      choice: "a choice",
     };
 
     const variables = {
       cartInput: {
-        localToken: '12j1239jf0942',
+        localToken: "12j1239jf0942",
         lines: [lineItem],
-        email: '',
-        phone: '',
+        email: "",
+        phone: "",
         phoneTransactionalSmsAgree: false,
       },
     };
@@ -342,13 +344,13 @@ export default function Home() {
           <h2>Cart</h2>
         ) : (
           <h2>
-            Cart: <span style={{ color: '#0070f3' }}>{cart}</span>
+            Cart: <span style={{ color: "#0070f3" }}>{cart}</span>
           </h2>
         )}
       </section>
       <section>
         <p className={styles.description}>
-          Get started by editing{' '}
+          Get started by editing{" "}
           <code className={styles.code}>pages/index.js</code>
         </p>
         {!!loading ? (
@@ -359,7 +361,7 @@ export default function Home() {
               <div className={styles.error}>{error}</div>
             ) : (
               <>
-                <div className={styles.grid}>
+                <SimpleGrid columns={2} spacing={10}>
                   {d.products.edges.map((node) => {
                     let product = node.node;
                     return (
@@ -372,7 +374,7 @@ export default function Home() {
                       />
                     );
                   })}
-                </div>
+                </SimpleGrid>
               </>
             )}
           </>

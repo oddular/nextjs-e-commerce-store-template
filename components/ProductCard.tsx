@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, Text, Heading, Button, Stack } from '@chakra-ui/react';
+import { Box, Text, Heading, Button, Stack, Image, Wrap, WrapItem} from '@chakra-ui/react';
 
 import { OddularCommerceClient, gql } from '@oddular/commerce-core';
 
@@ -169,16 +169,11 @@ export const cartFragment = gql`
 `;
 
 export const createCartMutation = gql`
-  ${cartFragment}
-  ${cartErrorFragment}
   mutation CreateCart($cartInput: CartCreateInput!) {
     cartCreate(input: $cartInput) {
       created
-      cartErrors {
-        ...CartError
-      }
       cart {
-        ...Cart
+        id
       }
     }
   }
@@ -188,8 +183,19 @@ const GRAPHQL_URL = 'http://localhost:8000/storefront/';
 
 const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
   const [selectedVariant, setSelectedVariant] = React.useState('');
+  const [showError, setShowError] = React.useState(false);
+
+  React.useEffect(()=>{
+    if(showError === true){
+      setTimeout(()=>{setShowError(false)}, 500)
+    }
+  },[showError]);
 
   const handleAddToCart = (e) => {
+    if(product.variants.length > 0 && selectedVariant === ''){
+      setShowError(true);
+      return;
+    }
     const client = new GraphQLClient(GRAPHQL_URL, {
       headers: {
         'x-oddular-storefront-token': TOKEN,
@@ -246,6 +252,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     // }, 200);
   };
 
+
   return (
     <Box
       borderWidth="1px"
@@ -253,44 +260,51 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       boxShadow="sm"
       p={2}
       borderRadius="lg"
-      width="full"
+      width="100%"
       display="flex"
       flexDirection="column"
+      justifyContent="flex-end"
     >
-      <Stack>
-        <Heading>{product.name}</Heading>
-        <Box
-          display={product.hasVariants ? 'flex' : 'none'}
-          flexDirection="column"
-        >
-          <Text fontSize="xs" fontWeight={400}>
-            Choose One
-          </Text>
-          <Stack direction="row" spacing={2}>
-            {product.variants.map((variant) => {
-              return (
-                <Box
-                  key={variant.id}
-                  onClick={() => setSelectedVariant(variant.id)}
-                  borderWidth="2px"
-                  borderRadius="xl"
-                  bg="gray.50"
-                  px={2}
-                  py={1}
-                  borderColor={
-                    selectedVariant === variant.id ? 'blue.500' : 'transparent'
-                  }
-                >
-                  {variant.name}
-                </Box>
-              );
-            })}
-          </Stack>
+        {!!product.thumbnail &&
+        <Image src={product.thumbnail.url} alt={product.thumbnail.alt} w="100%" rounded="lg"/>
+        }
+        <Box>
+          <Heading my={2}>{product.name}</Heading>
+          <Box
+            display={product.hasVariants ? 'flex' : 'none'}
+            flexDirection="column"
+          >
+            <Text fontSize={showError ? "md" : "xs"} fontWeight={showError ? 600 : 400} my={1} ml={1} color={showError ? "red" : "black"}>
+              Choose One
+            </Text>
+            <Wrap>
+              {product.variants.map((variant : any
+              ) => {
+                return (
+                  <WrapItem>
+                    <Box
+                      key={variant.id}
+                      onClick={() => setSelectedVariant(variant.id)}
+                      borderWidth="2px"
+                      borderRadius="xl"
+                      bg="gray.50"
+                      px={2}
+                      py={1}
+                      borderColor={
+                        selectedVariant === variant.id ? 'blue.500' : 'transparent'
+                      }
+                    >
+                      {variant.name}
+                    </Box>
+                  </WrapItem>
+                );
+              })}
+            </Wrap>
+          </Box>
+          <Button type="button" size="xs" onClick={handleAddToCart} w="full" mt={2}>
+            Add to cart
+          </Button>
         </Box>
-        <Button type="button" size="xs" onClick={handleAddToCart}>
-          Add to cart
-        </Button>
-      </Stack>
     </Box>
   );
 };
