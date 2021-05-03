@@ -14,7 +14,7 @@ import DisplayBlocks from '../components/DisplayBlocks';
 import ProductCard from '../components/ProductCard';
 
 const TOKEN = '__DEMO__ODDULAR_PUBLIC_TOKEN_00000';
-const GRAPHQL_URL = 'http://localhost:8000/storefront/';
+const GRAPHQL_URL = 'https://api.odd.app/';
 
 export const cartErrorFragment = gql`
   fragment CartError on CartError {
