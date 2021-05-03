@@ -13,10 +13,8 @@ import { OddularCommerceClient, gql } from "@oddular/commerce-core";
 import DisplayBlocks from "../components/DisplayBlocks";
 import ProductCard from "../components/ProductCard";
 
-
 const TOKEN = "__DEMO__ODDULAR_PUBLIC_TOKEN_00000";
 const GRAPHQL_URL = "http://localhost:8000/storefront/";
-
 
 export const cartErrorFragment = gql`
   fragment CartError on CartError {
@@ -336,7 +334,10 @@ export default function Home() {
       </Head>
       <main className={styles.main}>
         <h1 className={styles.title}>
-          Welcome to <a href="https://oddular.com/">The Weird Store!</a>
+          Welcome to{" "}
+          <a href="https://oddular.com/">
+            <b>The Weird Store!</b>
+          </a>
         </h1>
       </main>
       <section>
@@ -349,7 +350,7 @@ export default function Home() {
         )}
       </section>
       <section>
-        <p className={styles.description}>
+        <p className={styles.description} my={5}>
           Get started by editing{" "}
           <code className={styles.code}>pages/index.js</code>
         </p>
@@ -361,7 +362,7 @@ export default function Home() {
               <div className={styles.error}>{error}</div>
             ) : (
               <>
-                <SimpleGrid columns={2} spacing={10}>
+                <SimpleGrid columns={2} spacing={10} mt={5}>
                   {d.products.edges.map((node) => {
                     let product = node.node;
                     return (
