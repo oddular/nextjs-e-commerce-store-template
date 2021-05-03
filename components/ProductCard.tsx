@@ -1,6 +1,8 @@
 import React from 'react';
 import { Box, Text, Heading, Button, Stack, Image, Wrap, WrapItem} from '@chakra-ui/react';
 
+import Link from 'next/link'
+
 import { OddularCommerceClient, gql } from '@oddular/commerce-core';
 
 import { GraphQLClient } from 'graphql-request';
@@ -269,7 +271,9 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
         <Image src={product.thumbnail.url} alt={product.thumbnail.alt} w="100%" rounded="lg"/>
         }
         <Box>
-          <Heading my={2}>{product.name}</Heading>
+          <Link href={"/product/" + product.id}>
+            <Heading my={2}>{product.name}</Heading>
+          </Link>
           <Box
             display={product.hasVariants ? 'flex' : 'none'}
             flexDirection="column"

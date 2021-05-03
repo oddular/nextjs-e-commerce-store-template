@@ -1,5 +1,6 @@
 import React from 'react';
 import { GetServerSideProps } from 'next';
+import {useRouter} from 'next/router';
 import { NextPage } from '@lib/types';
 import { Box } from '@chakra-ui/react';
 
@@ -11,7 +12,10 @@ export const getServerSideProps: GetServerSideProps = async (context) => {
 interface ProductPageProps {}
 
 const ProductPage: NextPage<ProductPageProps> = ({}) => {
-  return <Box>hi</Box>;
+  const router = useRouter()
+  const {product_id} = router.query
+  console.log(product_id)
+  return <Box>{product_id}</Box>;
 };
 
 ProductPage.layout = null;
