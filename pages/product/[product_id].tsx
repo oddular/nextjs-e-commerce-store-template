@@ -2,6 +2,7 @@ import React from 'react';
 import { GetServerSideProps } from 'next';
 import {useRouter} from 'next/router';
 import {gql, GraphQLClient} from 'graphql-request';
+import Spinner from "../../components/spinner"
 import { NextPage } from '@lib/types';
 import { Box } from '@chakra-ui/react';
 
@@ -16,13 +17,15 @@ const GRAPHQL_URL = "http://localhost:8000/storefront/";
 interface ProductPageProps {}
 
 const ProductPage: NextPage<ProductPageProps> = ({}) => {
+  const [data, setData] = React.useState({});
+
   const router = useRouter()
   const {product_id} = router.query
-  console.log(product_id)
-  const query = gql`
-    query getProduct($product_id: ID!){
-      Product(id: $product_id){
-        name
+
+  const query = gql` 
+    query getProduct($product_id: ID!){ 
+      product(id: $product_id){ 
+        name 
         description
         descriptionJson
         hasVariants
@@ -61,19 +64,33 @@ const ProductPage: NextPage<ProductPageProps> = ({}) => {
             }
           }
         }
-      }
-    }
-  `
+      } 
+    } 
+  ` 
   
-  const client = new GraphQLClient(GRAPHQL_URL);
+  const client = new GraphQLClient(GRAPHQL_URL, {
+    headers: {
+      "x-oddular-storefront-token": TOKEN,
+    },
+    credentials: "include",
+    mode: "cors",
+  });
 
   const variables = {
     product_id: product_id
   }
 
-  client.request(query, variables);
+  React.useEffect(()=>{
+    client.request(query, variables).then((data)=>{
+      setData(data);
+    });
+  },[])
 
-  return <Box>{product_id}</Box>;
+  if(data){
+    return <Box>{JSON.stringify(data)}</Box>;
+  }else{
+    return <Spinner/>
+  }
 };
 
 ProductPage.layout = null;
