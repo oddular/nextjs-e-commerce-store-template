@@ -220,7 +220,7 @@ export default function Home() {
         description
         descriptionJson
         hasVariants
-        thumbnail(size: 255) {
+        thumbnail(size: 500) {
           url
           alt
         }
