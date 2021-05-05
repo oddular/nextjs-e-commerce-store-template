@@ -95,9 +95,11 @@ const ProductPage: NextPage<ProductPageProps> = ({}) => {
 
   if(data){
     return (
-    <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" py={3}>
-      <Image src={data.thumbnail?.url} alt={data.thumbnail?.alt} w="65%" mb={2} rounded="lg"/>
-      <Box w="65%">
+      <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" py={3}>
+      <Box h="75vh" w="65%" roundedTop="2xl" overflow="hidden" display="flex" justifyContent="center" mb="-1em" borderColor="gray.100" borderWidth="1px" boxShadow="sm">
+         <Image src={data.thumbnail?.url} alt={data.thumbnail?.alt} w="100%" objectFit="fill"/>
+      </Box>
+      <Box w="65%" bg="white" rounded="2xl" p={3} borderColor="gray.100" borderWidth="1px" boxShadow="sm">
         <Box display="flex" flexDirection="row" justifyContent="space-between">
           <Text fontSize="4xl" fontWeight="800">{data.name}</Text>
           <Text fontSize="3xl" fontWeight="800">{moneyFormatter.format(data.listing.price.amount)}</Text>

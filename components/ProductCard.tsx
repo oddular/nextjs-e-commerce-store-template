@@ -260,25 +260,29 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
       borderWidth="1px"
       borderColor="gray.100"
       boxShadow="sm"
-      p={2}
-      borderRadius="lg"
+      borderRadius="2xl"
       width="100%"
       display="flex"
       flexDirection="column"
-      justifyContent="flex-end"
+      justifyContent="flex-start"
+      mb={3}
     >
         {!!product.thumbnail &&
-        <Image src={product.thumbnail.url} alt={product.thumbnail.alt} w="100%" rounded="lg"/>
+        <Link href={"/product/" + product.id}>
+          <Box h="250px" overflow="hidden" roundedTop="2xl" mb="-1em" zIndex={1}>
+            <Image src={product.thumbnail.url} alt={product.thumbnail.alt} w="100%" objectFit="contain"/>
+          </Box>
+        </Link>
         }
-        <Box>
+      <Box p={3} rounded="2xl" overflow="hidden" bg="white" zIndex={2} display="flex" justifyContent="space-between" flexDirection="column" height="calc(100% - 250px + 1em)" borderColor="gray.100" borderTopWidth="2px">
           <Link href={"/product/" + product.id}>
-            <Heading my={2}>{product.name}</Heading>
+            <Heading mb={2}>{product.name}</Heading>
           </Link>
           <Box
             display={product.hasVariants ? 'flex' : 'none'}
             flexDirection="column"
           >
-            <Text fontSize={showError ? "md" : "xs"} fontWeight={showError ? 600 : 400} my={1} ml={1} color={showError ? "red" : "black"}>
+            <Text fontSize="xs" fontWeight={400} my={1} ml={1} color={showError ? "red" : "black"}>
               Choose One
             </Text>
             <Wrap>

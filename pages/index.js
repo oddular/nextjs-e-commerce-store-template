@@ -350,7 +350,7 @@ export default function Home() {
         )}
       </section>
       <section>
-        <p className={styles.description} my={5}>
+        <p className={styles.description}>
           Get started by editing{" "}
           <code className={styles.code}>pages/index.js</code>
         </p>
