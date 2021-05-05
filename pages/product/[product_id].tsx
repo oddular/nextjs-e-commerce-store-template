@@ -97,7 +97,7 @@ const ProductPage: NextPage<ProductPageProps> = ({}) => {
     return (
       <Box display="flex" justifyContent="center" alignItems="center" flexDirection="column" py={3}>
       <Box h="75vh" w="65%" roundedTop="2xl" overflow="hidden" display="flex" justifyContent="center" mb="-1em" borderColor="gray.100" borderWidth="1px" boxShadow="sm">
-         <Image src={data.thumbnail?.url} alt={data.thumbnail?.alt} w="100%" objectFit="fill"/>
+         <Image src={data.thumbnail?.url} alt={data.thumbnail?.alt} w="100%" objectFit="cover"/>
       </Box>
       <Box w="65%" bg="white" rounded="2xl" p={3} borderColor="gray.100" borderWidth="1px" boxShadow="sm">
         <Box display="flex" flexDirection="row" justifyContent="space-between">
