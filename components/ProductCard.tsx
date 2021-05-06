@@ -3,7 +3,7 @@ import { Box, Text, Heading, Button, Stack, Image, Wrap, WrapItem} from '@chakra
 
 import Link from 'next/link'
 
-import { OddularCommerceClient, gql } from '@oddular/commerce-core';
+import { gql } from '@oddular/commerce-core';
 
 import { GraphQLClient } from 'graphql-request';
 
@@ -289,9 +289,8 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               {product.variants.map((variant : any
               ) => {
                 return (
-                  <WrapItem>
+                  <WrapItem key={variant.id}>
                     <Box
-                      key={variant.id}
                       onClick={() => setSelectedVariant(variant.id)}
                       borderWidth="2px"
                       borderRadius="xl"
@@ -318,3 +317,4 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 };
 
 export default ProductCard;
+;
