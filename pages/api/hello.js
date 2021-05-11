@@ -33,6 +33,10 @@ var parcel = {
   mass_unit: "lb",
 };
 
+const filterRates = (a) => {
+  return a.attributes.length > 0;
+};
+
 export default (req, res) => {
   shippo.shipment.create(
     {
@@ -45,7 +49,7 @@ export default (req, res) => {
       if (err) {
         res.status(err.statusCode).json(err); //change this error code
       } else {
-        res.status(200).json(shipment);
+        res.status(200).json(shipment.rates.filter(filterRates));
       }
     }
   );

@@ -24,7 +24,7 @@ const ShippingCard:React.FC<ShippingCardProps> = ({rate, selected, handleSelect}
     alignItems="center"
     justifyContent="space-between"
   >
-    {/*<Text>{JSON.stringify(rate, null, 2)}</Text>*/}
+    {/* <Text as="pre">{JSON.stringify(rate, null, 2)}</Text> */}
     <Box display="flex" flexDirection="row" alignItems="center">
       <Image src={rate.provider_image_200} alt={rate.provider} w="40px" m={2}/>
       <Text>${rate.amount_local}</Text>
