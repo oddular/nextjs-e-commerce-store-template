@@ -2,6 +2,7 @@ import React from "react";
 import {gql, GraphQLClient} from 'graphql-request';
 import {Box, Text, Table, TableCaption, Thead, Tr, Th, Tbody, Td, Tfoot} from "@chakra-ui/react";
 import Spinner from "../components/spinner"
+import AddressCard from "../components/AddressCard";
 
 const TOKEN = "__DEMO__ODDULAR_PUBLIC_TOKEN_00000";
 const GRAPHQL_URL = "http://localhost:8000/storefront/";
@@ -37,13 +38,11 @@ const query = gql`
         countryArea
         phone
       }
-      customerNote
       paymentStatusDisplay
       total{
         currency
       }
       statusDisplay
-      userEmail
     } 
   } 
 `
@@ -104,20 +103,28 @@ const Order: React.FC<OrderProps> = ({}) => {
     });
   },[])
   if(data){
-    return (<Box>
-      <Box display="flex" flexDirection="column" justifyContent="center" alignItems="center">
-        <Text>{data.billingAddress.firstName + " " + data.billingAddress.lastName}</Text> 
-        <Text>{data.billingAddress.companyName}</Text> 
-        <Text>{data.billingAddress.streetAddress1}</Text> 
-        <Text>{data.billingAddress.city + ", " + (data.billingAddress.countryArea ? data.billingAddress.countryArea + ", " : "") + data.billingAddress.country.code + " " + data.billingAddress.postalCode }</Text> 
-        <Text>{data.billingAddress.phone}</Text> 
+    return (<Box p={2} m={2} borderColor="black" borderWidth="1px" rounded="lg" w="350px" display="flex" flexDirection="column" alignItems="center">
+      <Text fontWeight="bold">Order Summary</Text>
+      <AddressCard address={data.billingAddress} label="Billing Address"/>
+      <AddressCard address={data.shippingAddress} label="Shipping Address"/>
+      <Box p={2} m={2} rounded="lg" borderColor="black" borderWidth="1px" display={data.shippingMethodName && data.shippingMethodName.length > 0 ? "block" : "none"} w="300px">
+        Shipping by {data.shippingMethodName} 
       </Box>
-      <Table variant="simple">
-        <TableCaption placement="top">Order Summary</TableCaption>
-        <Tbody>
-          {Object.entries(data).map(tabulateProperty)}
-        </Tbody>
-      </Table>
+
+      <Box p={2} m={2} rounded="lg" borderColor="black" borderWidth="1px" 
+        w="300px"
+>
+        <Text fontWeight="bold">Payment Details</Text>
+        <Text>Payment Status: {data.paymentStatusDisplay}</Text>
+        <Text>$50 {data.total.currency}</Text>
+        <Text>Payment {data.statusDisplay}</Text>
+      </Box>
+      {/* <Table variant="simple"> */}
+      {/*   <TableCaption placement="top">Order Summary</TableCaption> */}
+      {/*   <Tbody> */}
+      {/*     {Object.entries(data).map(tabulateProperty)} */}
+      {/*   </Tbody> */}
+      {/* </Table> */}
     </Box>);
   }
   return <Spinner/>
