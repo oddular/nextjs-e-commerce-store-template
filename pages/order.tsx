@@ -10,6 +10,12 @@ const GRAPHQL_URL = "http://localhost:8000/storefront/";
 const query = gql` 
   query getOrder($token: String!){ 
     orderByToken(token: $token){ 
+      customer{
+        email
+        firstName
+        lastName
+        note
+      }
       billingAddress{
         firstName
         lastName
@@ -37,6 +43,17 @@ const query = gql`
         }
         countryArea
         phone
+      }
+      lines{
+        productName
+        variantName
+        quantity
+        unitPrice{
+          currency
+        }
+        totalPrice{
+          currency
+        }
       }
       paymentStatusDisplay
       total{
@@ -103,8 +120,17 @@ const Order: React.FC<OrderProps> = ({}) => {
     });
   },[])
   if(data){
-    return (<Box p={2} m={2} borderColor="black" borderWidth="1px" rounded="lg" w="350px" display="flex" flexDirection="column" alignItems="center">
+    return (<Box p={2} m={2} borderColor="black" borderWidth="1px" rounded="lg" display="flex" flexDirection="column" alignItems="center" w="400px">
       <Text fontWeight="bold">Order Summary</Text>
+      
+      <Box p={2} m={2} rounded="lg" borderColor="black" borderWidth="1px" 
+        w="300px"
+>
+        <Text fontWeight="bold">Customer Details</Text>
+        <Text>{data.customer.firstName + " " + data.customer.lastName}</Text>
+        <Text>{data.customer.email}</Text>
+        <Text>Payment {data.customer.note}</Text>
+      </Box>
       <AddressCard address={data.billingAddress} label="Billing Address"/>
       <AddressCard address={data.shippingAddress} label="Shipping Address"/>
       <Box p={2} m={2} rounded="lg" borderColor="black" borderWidth="1px" display={data.shippingMethodName && data.shippingMethodName.length > 0 ? "block" : "none"} w="300px">
@@ -118,6 +144,26 @@ const Order: React.FC<OrderProps> = ({}) => {
         <Text>Payment Status: {data.paymentStatusDisplay}</Text>
         <Text>$50 {data.total.currency}</Text>
         <Text>Payment {data.statusDisplay}</Text>
+      </Box>
+      <Box p={2} m={2} rounded="lg" borderColor="black" borderWidth="1px" 
+        w="300px"
+        display="flex"
+        flexDirection="column"
+        alignItems="center"
+>
+        <Text fontWeight="bold">Order Details</Text>
+        {data.lines.map((line, index)=>{
+          return (
+            <Box p={2} m={2} rounded="lg" borderColor="black" borderWidth="1px" 
+              w="250px"
+      >
+              <Text fontWeight="bold">{line.productName + (line.variantName && line.variantName.length > 0 ?  " - " + line.variantName : "")}</Text>
+              <Text>Quantity: {line.quantity}</Text>
+              <Text>${50} {line.unitPrice.currency} per unit</Text>
+              <Text>${50 * line.quantity} {line.totalPrice.currency} total</Text>
+            </Box>
+        ) 
+        })} 
       </Box>
       {/* <Table variant="simple"> */}
       {/*   <TableCaption placement="top">Order Summary</TableCaption> */}
