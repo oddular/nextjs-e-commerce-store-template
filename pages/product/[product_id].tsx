@@ -5,6 +5,7 @@ import {gql, GraphQLClient} from 'graphql-request';
 import Spinner from "../../components/spinner"
 import { NextPage } from '@lib/types';
 import { Box, Image, Text} from '@chakra-ui/react';
+import Link from "next/link"
 
 export const getServerSideProps: GetServerSideProps = async (context) => {
   const data = {};
@@ -23,6 +24,10 @@ const query = gql`
       name 
       description
       descriptionJson
+      category{
+        name,
+        slug
+      }
       hasVariants
       thumbnail(size: 1000) {
         url
@@ -57,6 +62,10 @@ const query = gql`
             gross
             net
           }
+        }
+        collections{
+          name
+          slug
         }
       }
     } 
@@ -106,17 +115,47 @@ const ProductPage: NextPage<ProductPageProps> = ({}) => {
         </Box>
         <Text fontSize="xl" fontWeight="400">{data.description}</Text>
         {data.hasVariants 
-            && <Text fontSize="2xl" fontWeight="600">Variants</Text> 
-            && data.variants.map((variant: any, index: number)=>{
-          return (
-          <Box key={index} display="flex" flexDirection="row" justifyContent="space-between">
-            <Text fontSize="xl" fontWeight="500">{variant.name}</Text>
-            <Text fontSize="lg" fontWeight="500">{moneyFormatter.format(variant.listing.price.amount)}</Text>
+            && 
+            <Box>
+              <Text fontSize="2xl" fontWeight="600">Variants</Text> 
+              {data.variants.map((variant: any, index: number)=>{
+                return (
+                <Box key={index} display="flex" flexDirection="row" justifyContent="space-between">
+                  <Text fontSize="xl" fontWeight="500">{variant.name}</Text>
+                  <Text fontSize="lg" fontWeight="500">{moneyFormatter.format(variant.listing.price.amount)}</Text>
+                </Box>
+                );
+        })}
+      </Box>
+      }
+        {!!data.category && 
+          <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
+            <Text fontSize="2xl" fontWeight="600">Category</Text>
+            <Link href={"/category/" + data.category.slug}>
+              <Text textDecoration="underline" _hover={{"cursor": "grab"}}>
+                {data.category.name}
+              </Text>
+            </Link>
           </Box>
-        );
-      })}
+        }
+        {!!data.collections && 
+          <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
+            <Text fontSize="2xl" fontWeight="600">Collections</Text>
+            {data.collections.map((collection, index)=>{
+              return (
+                <Link href={"/collection/" + collection.slug}>
+                  <Text textDecoration="underline" _hover={{"cursor": "grab"}}>
+                    {collection.name}
+                  </Text>
+                </Link>
+              );
+            })
+            }
+          </Box>
+        }
       </Box>
     </Box>);
+
   }else{
     return <Spinner/>
   }
