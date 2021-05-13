@@ -63,10 +63,10 @@ const query = gql`
             net
           }
         }
-        collections{
-          name
-          slug
-        }
+      }
+      collections{
+        name
+        slug
       }
     } 
   } 
@@ -138,7 +138,7 @@ const ProductPage: NextPage<ProductPageProps> = ({}) => {
             </Link>
           </Box>
         }
-        {!!data.collections && 
+        {!!data.collections && data.collections.length > 0 && 
           <Box display="flex" flexDirection="row" alignItems="center" justifyContent="space-between">
             <Text fontSize="2xl" fontWeight="600">Collections</Text>
             {data.collections.map((collection, index)=>{

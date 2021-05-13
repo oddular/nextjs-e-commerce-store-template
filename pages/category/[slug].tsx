@@ -38,6 +38,12 @@ const query = gql`
           node{
             id
             name
+            category{
+              name
+            }
+            collections{
+              name
+            }
           }
         }
       }
@@ -111,6 +117,7 @@ const CategoryPage: NextPage<CategoryPageProps> = ({}) => {
           </Text>
         </Link>);
       })}
+      <Image src={data.backgroundImage.url} alt={data.backgroundImage.alt}/>
     </Box>
       );
   }else{

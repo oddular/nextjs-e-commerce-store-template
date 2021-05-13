@@ -80,6 +80,7 @@ const CollectionPage: NextPage<CollectionPageProps> = ({}) => {
           {edge.node.name}
         </Text></Link>);
       })}
+      <Image src={data.backgroundImage.url} alt={data.backgroundImage.alt}/>
     </Box>
       );
   }else{
