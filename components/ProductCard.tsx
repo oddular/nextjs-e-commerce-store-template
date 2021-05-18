@@ -254,6 +254,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
     // }, 200);
   };
 
+  console.log(JSON.stringify(product, null, 2))
 
   return (
     <Box
@@ -279,26 +280,26 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
             <Heading mb={2}>{product.name}</Heading>
           </Link>
           <Box
-            display={product.hasVariants ? 'flex' : 'none'}
+            display={product.variants?.length > 0 ? 'flex' : 'none'}
             flexDirection="column"
           >
             <Text fontSize="xs" fontWeight={400} my={1} ml={1} color={showError ? "red" : "black"}>
               Choose One
             </Text>
             <Wrap>
-              {product.variants.map((variant : any
+              {product.variants?.map((variant : any
               ) => {
                 return (
-                  <WrapItem key={variant.id}>
+                  <WrapItem key={variant.name}>
                     <Box
-                      onClick={() => setSelectedVariant(variant.id)}
+                      onClick={() => setSelectedVariant(variant.name)}
                       borderWidth="2px"
                       borderRadius="xl"
                       bg="gray.50"
                       px={2}
                       py={1}
                       borderColor={
-                        selectedVariant === variant.id ? 'blue.500' : 'transparent'
+                        selectedVariant === variant.name ? 'blue.500' : 'transparent'
                       }
                     >
                       {variant.name}

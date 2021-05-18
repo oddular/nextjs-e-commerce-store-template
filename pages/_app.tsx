@@ -3,6 +3,9 @@ import { ChakraProvider } from '@chakra-ui/react';
 
 import { OddCommerceProvider } from '@oddular/commerce-react';
 
+import {createClient} from "@oddular/graphql-client-apollo";
+import {ApolloProvider} from "@apollo/client";
+
 import {
   ODDULAR_STOREFRONT_TOKEN,
   ODDULAR_STOREFRONT_GRAPHQL_ENDPOINT,
@@ -16,16 +19,26 @@ const ODDULAR_OPTIONS = {
   },
 };
 
+const OddularClient = createClient({
+  uri: 'http://localhost:8000/storefront/',
+  token: ODDULAR_STOREFRONT_TOKEN,
+  headers: {
+    'x-oddular-storefront-token': ODDULAR_STOREFRONT_TOKEN
+  }
+});
+
 function MyApp({ Component, pageProps }) {
   return (
-    <OddCommerceProvider
-      storefrontToken={ODDULAR_STOREFRONT_TOKEN}
-      options={ODDULAR_OPTIONS}
-    >
-      <ChakraProvider>
-        <Component {...pageProps} />
-      </ChakraProvider>
-    </OddCommerceProvider>
+    <ApolloProvider client={OddularClient}>
+      <OddCommerceProvider
+        storefrontToken={ODDULAR_STOREFRONT_TOKEN}
+        options={ODDULAR_OPTIONS}
+      >
+        <ChakraProvider>
+          <Component {...pageProps} />
+        </ChakraProvider>
+      </OddCommerceProvider>
+    </ApolloProvider>
   );
 }
 

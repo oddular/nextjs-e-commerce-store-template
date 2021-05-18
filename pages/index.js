@@ -13,6 +13,8 @@ import { OddularCommerceClient, gql } from "@oddular/commerce-core";
 import DisplayBlocks from "../components/DisplayBlocks";
 import ProductCard from "../components/ProductCard";
 
+import { useProductListQuery } from "@oddular/graphql-client-apollo";
+
 const TOKEN = "__DEMO__ODDULAR_PUBLIC_TOKEN_00000";
 const GRAPHQL_URL = "http://localhost:8000/storefront/";
 
@@ -196,14 +198,15 @@ export const createCartMutation = gql`
 `;
 
 export default function Home() {
-  const [d, setD] = useState(null);
   const [cart, setCart] = useState(1);
 
   const [cartToken, setCartToken] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState();
 
-  useEffect(() => {
+  const { data, loading, error } = useProductListQuery({
+    variables: { first: 10 },
+  });
+
+  useEffect(async () => {
     const OddularClient = new OddularCommerceClient(
       TOKEN,
       {},
@@ -258,17 +261,17 @@ export default function Home() {
       }
     `;
 
-    OddularClient.getProductList({ first: 100 }, productFragment)
-      .then(({ status, data, error }) => {
-        if (status === "error") {
-          setError(error.response.error);
-        } else {
-          setD(data);
-        }
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+    // OddularClient.getProductList({ first: 100 }, productFragment)
+    //   .then(({ status, data, error }) => {
+    //     if (status === "error") {
+    //       setError(error.response.error);
+    //     } else {
+    //       setD(data);
+    //     }
+    //   })
+    //   .finally(() => {
+    //     setLoading(false);
+    //   });
   }, []);
 
   const handleAddToCart = (productId, variantId) => {
@@ -363,7 +366,7 @@ export default function Home() {
             ) : (
               <>
                 <SimpleGrid columns={2} spacing={10} mt={5}>
-                  {d.products.edges.map((node) => {
+                  {data.products.edges.map((node) => {
                     let product = node.node;
                     return (
                       <ProductCard
