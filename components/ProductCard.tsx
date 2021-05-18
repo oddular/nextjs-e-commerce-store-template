@@ -290,16 +290,16 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
               {product.variants?.map((variant : any
               ) => {
                 return (
-                  <WrapItem key={variant.name}>
+                  <WrapItem key={variant.id}>
                     <Box
-                      onClick={() => setSelectedVariant(variant.name)}
+                      onClick={() => setSelectedVariant(variant.id)}
                       borderWidth="2px"
                       borderRadius="xl"
                       bg="gray.50"
                       px={2}
                       py={1}
                       borderColor={
-                        selectedVariant === variant.name ? 'blue.500' : 'transparent'
+                        selectedVariant === variant.id ? 'blue.500' : 'transparent'
                       }
                     >
                       {variant.name}
