@@ -206,74 +206,6 @@ export default function Home() {
     variables: { first: 10 },
   });
 
-  useEffect(async () => {
-    const OddularClient = new OddularCommerceClient(
-      TOKEN,
-      {},
-      "",
-      GRAPHQL_URL,
-      false,
-      false
-    );
-
-    const productFragment = gql`
-      fragment ProductFragment on Product {
-        id
-        name
-        description
-        descriptionJson
-        hasVariants
-        thumbnail(size: 500) {
-          url
-          alt
-        }
-        listing {
-          hasVariants
-          price {
-            amount
-            currency
-          }
-        }
-        variants {
-          id
-          sku
-          name
-          images {
-            id
-            url
-            alt
-          }
-          listing {
-            price {
-              amount
-              currency
-            }
-          }
-          pricing {
-            onSale
-            priceUndiscounted {
-              currency
-              gross
-              net
-            }
-          }
-        }
-      }
-    `;
-
-    // OddularClient.getProductList({ first: 100 }, productFragment)
-    //   .then(({ status, data, error }) => {
-    //     if (status === "error") {
-    //       setError(error.response.error);
-    //     } else {
-    //       setD(data);
-    //     }
-    //   })
-    //   .finally(() => {
-    //     setLoading(false);
-    //   });
-  }, []);
-
   const handleAddToCart = (productId, variantId) => {
     const client = new GraphQLClient(GRAPHQL_URL, {
       headers: {
@@ -305,28 +237,6 @@ export default function Home() {
     client.request(mutation, variables).then((result) => {
       JSON.stringify(result);
     });
-
-    // const OddularClient = new OddularStorefrontClient(
-    //   TOKEN,
-    //   {},
-    //   '',
-    //   GRAPHQL_URL,
-    //   true,
-    //   true,
-    // );
-
-    // OddularClient.addProductToCart({
-    //   quantity: 1,
-    //   variantId,
-    //   note: 'a note',
-    //   choice: 'a choice',
-    // }).then((data) => {
-    //   console.log(data);
-    // });
-
-    // setTimeout(() => {
-    //   setCart(cart + 1);
-    // }, 200);
   };
 
   return (
