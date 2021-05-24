@@ -943,10 +943,10 @@
     "@nodelib/fs.scandir" "2.1.4"
     fastq "^1.6.0"
 
-"@oddular/commerce-core@1.66.0":
-  version "1.66.0"
-  resolved "https://npm.pkg.github.com/download/@oddular/commerce-core/1.66.0/58eed62345fa2365d68fb43aa10fb1a0d1fb75d44f2a28c8371dade85da216f1#763dd0e0e2ff1a9d9ecb63b00a37d20c6b93f330"
-  integrity sha512-cZT1sxqfP8ZSL1fxEpuzawRs0T4Fts/8NdL8DJZshQl17YKpgyBR8DAijVgjuUxxmPxFpbmKKRFZUVC/nbdtlA==
+"@oddular/commerce-core@1.69.0":
+  version "1.69.0"
+  resolved "https://npm.pkg.github.com/download/@oddular/commerce-core/1.69.0/c7773fa0e307a7edae52d8cda50714acca0af21d8304e3ac9f02e12f0dbe2479#23fa90555898390308324e4f7dc6f557c389bcdc"
+  integrity sha512-Yls1lzFfkBOU58an8h2crGGJOci74UJUUcn2kLxFv4Hg3QVET81vk1T4Ywa7Q7rYzJfiIw2000/R+7Qp1/jLHA==
   dependencies:
     "@graphql-tools/load" "^6.2.7"
     "@graphql-tools/url-loader" "^6.2.7"
@@ -955,20 +955,20 @@
     graphql-request "^3.4.0"
     node-fetch "^2.6.1"
 
-"@oddular/commerce-react@^1.69.0":
-  version "1.69.0"
-  resolved "https://npm.pkg.github.com/download/@oddular/commerce-react/1.69.0/7a7bd85773b2425f66a998e86575ba1137c3befb9eaab4285a6ee52d7a79e79d#b46cb35547d40c5ebb1c6bd6300c0109d9052283"
-  integrity sha512-iksg6qdF2fzmqKO2Tfo7cQNl9Dk1wMKCsXahIp2SJ2nphhyydWS1jefOudMe3fbyLGuZLbsqH0wLgavoyUKEdw==
+"@oddular/commerce-react@^1.72.0":
+  version "1.72.0"
+  resolved "https://npm.pkg.github.com/download/@oddular/commerce-react/1.72.0/930ee8a354183c0fcd270bd53b932234e7787566a79857fc7d9f2b108e14b8cf#00787fcbea4af1e62b77732dc88e61c896cefb62"
+  integrity sha512-Ph44FjAVikuLsUFc33D/rPX3SE3hJhPhTOfkSzRPOjKduv/r88ePCDfU/s6yjbqk4OCMdKp0sMNnUrHMAiMQxA==
   dependencies:
-    "@oddular/commerce-core" "1.66.0"
+    "@oddular/commerce-core" "1.69.0"
 
-"@oddular/graphql-client-apollo@^1.28.0":
-  version "1.28.0"
-  resolved "https://npm.pkg.github.com/download/@oddular/graphql-client-apollo/1.28.0/6f762828b88cfeb0f828b98783c620da8bea813bbb96d4158a84fbc041686ab9#7efa7f78f8d58351bf2ae6a4bb7eebb5d8c33ede"
-  integrity sha512-sqvKVB4cX18OWQDeQ1R6nh9l9OG23++XKNN7uYgUdfPHBTL+b90CTlMfYLaJ5Lq3r9ZoSLPlf1U+cEiWzIaQzQ==
+"@oddular/graphql-client-apollo@^1.31.0":
+  version "1.31.0"
+  resolved "https://npm.pkg.github.com/download/@oddular/graphql-client-apollo/1.31.0/fb86156f9f74aeba723ceda5dcdff11210253c7a299518512837ed0ee780911d#b91af3d6890de4eddab979595104f0ae39ade34d"
+  integrity sha512-23jNDoQ33ZaO2BNZFkwclt++uDZ6glAvNRwqU7Sw8auUsSZw5djGmlHk2543ZMfgWfqKits0FXZTb2Uyh8gnKA==
   dependencies:
     "@apollo/client" "^3.3.17"
-    "@oddular/commerce-core" "1.66.0"
+    "@oddular/commerce-core" "1.69.0"
     apollo-upload-client "^14.1.3"
     graphql "^15.5.0"
 
