@@ -18,7 +18,18 @@ export const shippingPage = () => {
     return a.amount_local - b.amount_local;
   }
 
+  const flatRate : any = {
+	  provider_image_200: "https://via.placeholder.com/40/8D43F0/FFFFFF/?text=FLAT",
+	  amount_local:20.61,
+	  provider: "FLAT_RATE",
+	  duration_terms: "Delivery by the next passing of Halley's comet."
+  }
+
   const purchaseRate = (rate) => {
+    if(flatRate.provider === selectedRate?.provider){
+	    alert("flat rate");
+	    return;
+    }
     //TODO move this away from the client
     shippo.transaction.create({
       "rate": rate.object_id,
@@ -35,9 +46,11 @@ export const shippingPage = () => {
 
   data.sort(compareRates);
 
+
   return (!!data.type && data.type === "ShippoAPIError") ? (<pre>{JSON.stringify(data, null, 2)}</pre>) : data.length === 0 ? (<>no available rates</>):
     (<>
       <Stack m={2}>
+	<ShippingCard rate={flatRate} selected={flatRate.provider === selectedRate?.provider} handleSelect={()=>{selectRate(flatRate)}}/>
       {data.map((rate, index)=>{
         return (
             <ShippingCard key={index} rate={rate} selected={rate === selectedRate} handleSelect={()=>{selectRate(rate)}}/>

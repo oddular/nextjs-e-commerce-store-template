@@ -53,7 +53,7 @@ const ProductPage: NextPage<ProductPageProps> = ({}) => {
                 return (
                 <Box key={index} display="flex" flexDirection="row" justifyContent="space-between">
                   <Text fontSize="xl" fontWeight="500">{variant.name}</Text>
-                  <Text fontSize="lg" fontWeight="500">{moneyFormatter.format(variant.listing.price.amount)}</Text>
+                  <Text fontSize="lg" fontWeight="500">{moneyFormatter.format(variant?.listing?.price?.amount)}</Text>
                 </Box>
                 );
         })}

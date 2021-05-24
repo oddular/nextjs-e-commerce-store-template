@@ -229,6 +229,7 @@ const ProductCard: React.FC<ProductCardProps> = ({ product }) => {
 
     client.request(mutation, variables).then((result) => {
       JSON.stringify(result);
+      console.log(JSON.stringify(result));
     });
 
     // const OddularClient = new OddularStorefrontClient(
