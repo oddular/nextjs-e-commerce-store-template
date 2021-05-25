@@ -7,7 +7,6 @@ interface CollectionCardProps {
   collection: any;
 }
 
-
 const CollectionCard: React.FC<CollectionCardProps> = ({ collection }) => {
   return (
     <Box
