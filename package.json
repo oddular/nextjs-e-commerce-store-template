@@ -20,6 +20,7 @@
     "@oddular/graphql-client-apollo": "^1.31.0",
     "@stripe/react-stripe-js": "^1.4.1",
     "@stripe/stripe-js": "^1.15.0",
+    "browserslist": "^4.16.6",
     "dayjs": "^1.10.4",
     "framer-motion": "^4",
     "graphql": "^15.5.0",
